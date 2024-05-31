@@ -7,20 +7,57 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0330ECD72B65C8FA00AA0CFC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0330ECD62B65C8FA00AA0CFC /* AppDelegate.m */; };
 		0330ECD92B65C8FB00AA0CFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0330ECD82B65C8FB00AA0CFC /* Assets.xcassets */; };
-		0330ECDC2B65C8FC00AA0CFC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0330ECDA2B65C8FC00AA0CFC /* MainMenu.xib */; };
-		0330ECDE2B65C8FC00AA0CFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0330ECDD2B65C8FC00AA0CFC /* main.m */; };
+		0330ECE92B65CB0100AA0CFC /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0330ECE82B65CB0100AA0CFC /* SDL2.framework */; };
+		0330ECEA2B65CB0100AA0CFC /* SDL2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0330ECE82B65CB0100AA0CFC /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		03321B762BF000B6001A1EF1 /* RelicArt.png in Resources */ = {isa = PBXBuildFile; fileRef = 03321B752BF000B6001A1EF1 /* RelicArt.png */; };
+		03321B782BF00853001A1EF1 /* StarfishRightRoll.png in Resources */ = {isa = PBXBuildFile; fileRef = 03321B772BF00853001A1EF1 /* StarfishRightRoll.png */; };
+		03321B7A2BF1D463001A1EF1 /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03321B792BF1D463001A1EF1 /* SDL2_ttf.framework */; };
+		03321B7B2BF1D463001A1EF1 /* SDL2_ttf.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 03321B792BF1D463001A1EF1 /* SDL2_ttf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		03386A512C0A7BFC003F024B /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03386A4F2C0A7BFC003F024B /* Button.cpp */; };
+		03386A532C0A82A8003F024B /* ButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 03386A522C0A82A8003F024B /* ButtonBackground.png */; };
+		0386BCDD2B69740800E251A8 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0386BCDC2B69740800E251A8 /* SDL2_image.framework */; };
+		0386BCDE2B69740800E251A8 /* SDL2_image.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0386BCDC2B69740800E251A8 /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		039C263F2BE6DF1100A32D0E /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 039C263D2BE6DF1100A32D0E /* Game.cpp */; };
+		039C26412BE6E26600A32D0E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 039C26402BE6E26600A32D0E /* main.cpp */; };
+		039C26432BE8C2B500A32D0E /* Starfish.png in Resources */ = {isa = PBXBuildFile; fileRef = 039C26422BE8C2B500A32D0E /* Starfish.png */; };
+		039C26462BEA1C8500A32D0E /* LTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 039C26442BEA1C8500A32D0E /* LTexture.cpp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0330ECEB2B65CB0100AA0CFC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0330ECEA2B65CB0100AA0CFC /* SDL2.framework in Embed Frameworks */,
+				03321B7B2BF1D463001A1EF1 /* SDL2_ttf.framework in Embed Frameworks */,
+				0386BCDE2B69740800E251A8 /* SDL2_image.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0330ECD22B65C8FA00AA0CFC /* SDL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDL.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0330ECD52B65C8FA00AA0CFC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		0330ECD62B65C8FA00AA0CFC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0330ECD82B65C8FB00AA0CFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0330ECDB2B65C8FC00AA0CFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		0330ECDD2B65C8FC00AA0CFC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0330ECDF2B65C8FC00AA0CFC /* SDL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SDL.entitlements; sourceTree = "<group>"; };
+		0330ECE82B65CB0100AA0CFC /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2.framework; sourceTree = "<group>"; };
+		03321B752BF000B6001A1EF1 /* RelicArt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RelicArt.png; sourceTree = "<group>"; };
+		03321B772BF00853001A1EF1 /* StarfishRightRoll.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StarfishRightRoll.png; sourceTree = "<group>"; };
+		03321B792BF1D463001A1EF1 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_ttf.framework; sourceTree = "<group>"; };
+		03386A4F2C0A7BFC003F024B /* Button.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
+		03386A502C0A7BFC003F024B /* Button.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Button.hpp; sourceTree = "<group>"; };
+		03386A522C0A82A8003F024B /* ButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ButtonBackground.png; path = ../../../../Desktop/ButtonBackground.png; sourceTree = "<group>"; };
+		0386BCDC2B69740800E251A8 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_image.framework; sourceTree = "<group>"; };
+		039C263D2BE6DF1100A32D0E /* Game.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
+		039C263E2BE6DF1100A32D0E /* Game.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
+		039C26402BE6E26600A32D0E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		039C26422BE8C2B500A32D0E /* Starfish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Starfish.png; sourceTree = "<group>"; };
+		039C26442BEA1C8500A32D0E /* LTexture.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LTexture.cpp; sourceTree = "<group>"; };
+		039C26452BEA1C8500A32D0E /* LTexture.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LTexture.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,6 +65,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0330ECE92B65CB0100AA0CFC /* SDL2.framework in Frameworks */,
+				03321B7A2BF1D463001A1EF1 /* SDL2_ttf.framework in Frameworks */,
+				0386BCDD2B69740800E251A8 /* SDL2_image.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,6 +79,7 @@
 			children = (
 				0330ECD42B65C8FA00AA0CFC /* SDL */,
 				0330ECD32B65C8FA00AA0CFC /* Products */,
+				0330ECE72B65CB0100AA0CFC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -53,14 +94,31 @@
 		0330ECD42B65C8FA00AA0CFC /* SDL */ = {
 			isa = PBXGroup;
 			children = (
-				0330ECD52B65C8FA00AA0CFC /* AppDelegate.h */,
-				0330ECD62B65C8FA00AA0CFC /* AppDelegate.m */,
+				03386A522C0A82A8003F024B /* ButtonBackground.png */,
+				03321B772BF00853001A1EF1 /* StarfishRightRoll.png */,
+				03321B752BF000B6001A1EF1 /* RelicArt.png */,
+				039C26422BE8C2B500A32D0E /* Starfish.png */,
 				0330ECD82B65C8FB00AA0CFC /* Assets.xcassets */,
-				0330ECDA2B65C8FC00AA0CFC /* MainMenu.xib */,
-				0330ECDD2B65C8FC00AA0CFC /* main.m */,
 				0330ECDF2B65C8FC00AA0CFC /* SDL.entitlements */,
+				039C263D2BE6DF1100A32D0E /* Game.cpp */,
+				039C263E2BE6DF1100A32D0E /* Game.hpp */,
+				039C26402BE6E26600A32D0E /* main.cpp */,
+				039C26442BEA1C8500A32D0E /* LTexture.cpp */,
+				039C26452BEA1C8500A32D0E /* LTexture.hpp */,
+				03386A4F2C0A7BFC003F024B /* Button.cpp */,
+				03386A502C0A7BFC003F024B /* Button.hpp */,
 			);
 			path = SDL;
+			sourceTree = "<group>";
+		};
+		0330ECE72B65CB0100AA0CFC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				03321B792BF1D463001A1EF1 /* SDL2_ttf.framework */,
+				0386BCDC2B69740800E251A8 /* SDL2_image.framework */,
+				0330ECE82B65CB0100AA0CFC /* SDL2.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -73,6 +131,7 @@
 				0330ECCE2B65C8FA00AA0CFC /* Sources */,
 				0330ECCF2B65C8FA00AA0CFC /* Frameworks */,
 				0330ECD02B65C8FA00AA0CFC /* Resources */,
+				0330ECEB2B65CB0100AA0CFC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -90,7 +149,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					0330ECD12B65C8FA00AA0CFC = {
 						CreatedOnToolsVersion = 15.2;
@@ -120,8 +179,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03321B782BF00853001A1EF1 /* StarfishRightRoll.png in Resources */,
+				03386A532C0A82A8003F024B /* ButtonBackground.png in Resources */,
 				0330ECD92B65C8FB00AA0CFC /* Assets.xcassets in Resources */,
-				0330ECDC2B65C8FC00AA0CFC /* MainMenu.xib in Resources */,
+				03321B762BF000B6001A1EF1 /* RelicArt.png in Resources */,
+				039C26432BE8C2B500A32D0E /* Starfish.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,23 +194,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0330ECDE2B65C8FC00AA0CFC /* main.m in Sources */,
-				0330ECD72B65C8FA00AA0CFC /* AppDelegate.m in Sources */,
+				039C263F2BE6DF1100A32D0E /* Game.cpp in Sources */,
+				039C26412BE6E26600A32D0E /* main.cpp in Sources */,
+				039C26462BEA1C8500A32D0E /* LTexture.cpp in Sources */,
+				03386A512C0A7BFC003F024B /* Button.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		0330ECDA2B65C8FC00AA0CFC /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0330ECDB2B65C8FC00AA0CFC /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		0330ECE02B65C8FC00AA0CFC /* Debug */ = {
@@ -185,6 +238,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -246,6 +300,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -271,11 +326,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SDL/SDL.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.action-games";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -295,11 +355,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SDL/SDL.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.action-games";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
