@@ -53,7 +53,7 @@ bool LButton::loadTextures(SDL_Renderer * renderer, std::string buttonBackground
     return success;
 }
 
-void LButton::handleEvent( SDL_Event* e )
+void LButton::handleEvent( SDL_Event* e, bool & pressed)
 {
     //If mouse event happened
     if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP )
@@ -101,6 +101,7 @@ void LButton::handleEvent( SDL_Event* e )
             
                 case SDL_MOUSEBUTTONDOWN:
                     texture.setColor(130, 130, 130);
+                    pressed = !pressed;
                 break;
                 
                 case SDL_MOUSEBUTTONUP:

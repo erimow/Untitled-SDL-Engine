@@ -30,7 +30,7 @@ public:
     bool loadTextures(SDL_Renderer * renderer, std::string buttonBackground, std::string buttonText, TTF_Font *gFont, SDL_Color textColor);
 
     //Handles mouse event
-    void handleEvent( SDL_Event* e );
+    void handleEvent( SDL_Event* e , bool & pressed);
 
     //Shows button sprite
     void render(SDL_Renderer * renderer);

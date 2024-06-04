@@ -18,6 +18,9 @@ SDL_FPoint cameraPos;
 TTF_Font * gFont = NULL;
 LTexture fontTexture;
 LButton button(SCREEN_WIDTH-85, 25, 60, 25);
+bool isButtonPressed = false;
+Mix_Chunk* jumpEffect = NULL;
+Mix_Music* gameMusic = NULL;
 SDL_Joystick * gamePad = NULL;
 const int JOYSTICK_DEADZONE = 11000;
 Uint8 currentControl = NULL;
@@ -37,6 +40,7 @@ enum controlEnum
     MAK,
     GAMEPAD
 };
+
 
 bool loadMedia()
 {
@@ -72,6 +76,16 @@ bool loadMedia()
             success = false;
         }
         
+    }
+    jumpEffect = Mix_LoadWAV("Sounds/low.wav");
+    if(jumpEffect == NULL)
+    {
+        printf("Could not set jumpEffect sound! Error: %s\n", Mix_GetError());
+    }
+    gameMusic = Mix_LoadMUS("Sounds/game - music 1.wav");
+    if(gameMusic == NULL)
+    {
+        printf("Could not set gameMusic! Error: %s\n", Mix_GetError());
     }
     
     return success;
@@ -164,9 +178,9 @@ void ERK::gameLoop()
             //JOYSTICK CONTROLS
             else if (e.type == SDL_JOYAXISMOTION )
             {
-                if (e.jaxis.which == 0) //
+                if (e.jaxis.which == 0) //gamepad at index 0
                 {
-                    if (e.jaxis.axis == 0)
+                    if (e.jaxis.axis == 0) // x axis
                     {
                         if (e.jaxis.value > JOYSTICK_DEADZONE)
                         {
@@ -195,7 +209,7 @@ void ERK::gameLoop()
             {
                 switch (e.jbutton.button)
                 {
-                    case 0:
+                    case 0: //A button
                         up=1;
                         currentControl = controlEnum::GAMEPAD;
                         break;
@@ -205,13 +219,13 @@ void ERK::gameLoop()
             {
                 switch (e.jbutton.button)
                 {
-                    case 0:
+                    case 0: //A button
                         up=0;
                         break;
                 }
             }
             
-            button.handleEvent(&e);
+            button.handleEvent(&e, isButtonPressed);
         }
         
         /*   FOR USING KEY STATES AS OPPOSED TO EVENTS... NO BUENO
@@ -239,6 +253,26 @@ void ERK::gameLoop()
         }
          IGNORE ALL THIS TRASH
         */
+        
+        //------------ MUSIC STUFF -----------------
+        if (Mix_PlayingMusic() == 0)
+        {
+            if (isButtonPressed)
+            {
+                Mix_PlayMusic(gameMusic, -1);
+            }
+        }
+        else
+        {
+            if (!isButtonPressed && (Mix_PausedMusic()==0))
+            {
+                Mix_PauseMusic();
+            }
+            else if (isButtonPressed && Mix_PausedMusic()==1)
+            {
+                Mix_ResumeMusic();
+            }
+        }
          
          
         //--------------- PLAYER PHYSICS -----------------
@@ -248,7 +282,7 @@ void ERK::gameLoop()
             speedX = maxX;
         if(-speedX >= maxX)
             speedX = -maxX;
-        //player.x += speedX;
+       //player.x += speedX;
         speedY -= (onGround * up * jumpStr) - gravity;
         //player.y += speedY;
         ground-=speedY;
@@ -264,23 +298,27 @@ void ERK::gameLoop()
 //        cameraPos.y = player.y+player.h/2;
         
         //------------- COLLISIONS ---------------
+        
         if (((player.y + player.h) >= box.y && (player.y + player.h) <= box.y+5) && (player.x + ((player.w/2)+10)>=box.x && player.x+((player.w/2)-10) <= box.x+box.w) && speedY >= 0)
         {
+            if(onGround==0)
+                Mix_PlayChannel(-1, jumpEffect, 0);
             speedY = 0;
-//            gravity = 0;
             ground = (player.y+player.h)+box.h;
             onGround=1;
+            
         }
         else if(player.y + player.h >= ground)
         {
+            if (onGround == 0)
+                Mix_PlayChannel(-1, jumpEffect, 0);
             speedY = 0;
-//            gravity = 0;
             ground = player.y+player.h;
             onGround=1;
+            
         }
         else
         {
-//            gravity = 0.11f;
             onGround = 0;
         }
         
@@ -343,7 +381,7 @@ void ERK::gameLoop()
 bool ERK::init()
 {
     bool success = false;
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK)<0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO |SDL_INIT_JOYSTICK)<0)
     {
         printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
     }
@@ -369,42 +407,50 @@ bool ERK::init()
                 }
                 
                 else{
-                    //Initialize SDL_ttf
-                   if( TTF_Init() == -1 )
-                   {
-                       printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
-                   }
+                    //Init audio stuff
+                    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+                    {
+                        printf("Mix could not init! SDL_Mix Error: %s\n", Mix_GetError());
+                    }
                     else
                     {
-                        //LOAD MEDIE
-                        if (!loadMedia())
+                        //Initialize SDL_ttf
+                        if( TTF_Init() == -1 )
                         {
-                            printf("Could not load texture image!\n");
+                            printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
                         }
-                        else{
-                            //CHECK FOR JOYSTICKS AND SET TEXTURE FILTERING
-                            
-                            //Set texture filtering to linear
-                           if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
-                           {
-                               printf( "Warning: Linear texture filtering not enabled!" );
-                           }
-
-                           //Check for joysticks
-                           if( SDL_NumJoysticks() < 1 )
-                           {
-                               printf( "Warning: No joysticks connected!\n" );
-                           }
-                           else
-                           {
-                               //Load joystick
-                               gamePad = SDL_JoystickOpen( 0 );
-                               if( gamePad == NULL )
-                               {
-                                   printf( "Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError() );
-                               }
-                           }
-                            success = true;
+                        else
+                        {
+                            //LOAD MEDIA
+                            if (!loadMedia())
+                            {
+                                printf("Could not load texture image!\n");
+                            }
+                            else{
+                                //CHECK FOR JOYSTICKS AND SET TEXTURE FILTERING
+                                
+                                //Set texture filtering to linear
+                                if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
+                                {
+                                    printf( "Warning: Linear texture filtering not enabled!" );
+                                }
+                                
+                                //Check for joysticks
+                                if( SDL_NumJoysticks() < 1 )
+                                {
+                                    printf( "Warning: No joysticks connected!\n" );
+                                }
+                                else
+                                {
+                                    //Load joystick
+                                    gamePad = SDL_JoystickOpen( 0 );
+                                    if( gamePad == NULL )
+                                    {
+                                        printf( "Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError() );
+                                    }
+                                }
+                                success = true;
+                            }
                         }
                     }
                 }
@@ -422,16 +468,23 @@ void ERK::quit()
     playerArt[0].free();
     playerArt[1].free();
     playerArt[2].free();
+    Mix_FreeMusic(gameMusic);
+    gameMusic = NULL;
+    Mix_FreeChunk(jumpEffect);
+    jumpEffect=NULL;
     SDL_JoystickClose(gamePad);
+    gamePad=NULL;
     currentRender.free();
     fontTexture.free();
     TTF_CloseFont(gFont);
+    gFont = NULL;
     button.free();
     SDL_DestroyRenderer( renderer );
     SDL_DestroyWindow( window );
     window = NULL;
     renderer = NULL;
     gFont = NULL;
+    Mix_Quit();
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();
