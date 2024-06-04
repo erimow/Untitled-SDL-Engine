@@ -8,8 +8,8 @@
 #include "Game.hpp"
 #include "LTexture.hpp"
 #include "Button.hpp"
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 720;
 SDL_Window * window = nullptr;
 SDL_Renderer * renderer = nullptr;
 LTexture playerArt[3];
@@ -17,7 +17,7 @@ LTexture currentRender;
 SDL_FPoint cameraPos;
 TTF_Font * gFont = NULL;
 LTexture fontTexture;
-LButton button(SCREEN_WIDTH-85, 25, 60, 25);
+LButton button(SCREEN_WIDTH-(SCREEN_WIDTH/10)-25, 25, SCREEN_WIDTH/10, SCREEN_HEIGHT/10);
 bool isButtonPressed = false;
 Mix_Chunk* jumpEffect = NULL;
 Mix_Music* gameMusic = NULL;
@@ -46,17 +46,17 @@ bool loadMedia()
 {
     bool success = true;
     
-    if (!playerArt[0].loadFromFile(renderer, "Starfish.png"))
+    if (!playerArt[0].loadFromFile(renderer, "Art/Starfish.png"))
     {
         printf("Failed to load Starfish.png texture image!\n");
         success = false;
     }
-    if (!playerArt[1].loadFromFile(renderer, "RelicArt.png"))
+    if (!playerArt[1].loadFromFile(renderer, "Art/RelicArt.png"))
     {
         printf("Failed to load RelicArt.png texture image!\n");
         success = false;
     }
-    if (!playerArt[2].loadFromFile(renderer, "StarfishRightRoll.png"))
+    if (!playerArt[2].loadFromFile(renderer, "Art/StarfishRightRoll.png"))
     {
         printf("Failed to load StarfishRightRoll.png texture image!\n");
         success = false;
@@ -70,7 +70,7 @@ bool loadMedia()
             success = false;
         }
         fontCol = {0, 0, 0, 255};
-        if (!button.loadTextures(renderer, "ButtonBackground.png", "Button", gFont, fontCol))
+        if (!button.loadTextures(renderer, "Art/ButtonBackground.png", "Music", gFont, fontCol))
         {
             printf("Failed to load button texture!");
             success = false;
@@ -82,7 +82,8 @@ bool loadMedia()
     {
         printf("Could not set jumpEffect sound! Error: %s\n", Mix_GetError());
     }
-    gameMusic = Mix_LoadMUS("Sounds/game - music 1.wav");
+//    gameMusic = Mix_LoadMUS("Sounds/game - music 1.wav");
+    gameMusic = Mix_LoadMUS("Sounds/The Penguin God.wav");
     if(gameMusic == NULL)
     {
         printf("Could not set gameMusic! Error: %s\n", Mix_GetError());

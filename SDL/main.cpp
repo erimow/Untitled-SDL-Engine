@@ -6,7 +6,7 @@
 //
 
 #include <stdio.h>
-#include "Game.hpp"
+#include "Scripts/Game.hpp"
 
 
 
@@ -19,4 +19,5 @@ int main(int argc, char *args[])
         ERK::gameLoop();
     }
     ERK::quit();
+    return 0;
 }
