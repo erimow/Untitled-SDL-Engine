@@ -18,8 +18,11 @@ SDL_FPoint cameraPos;
 TTF_Font * gFont = NULL;
 LTexture fontTexture;
 LButton button(SCREEN_WIDTH-85, 25, 60, 25);
+SDL_Joystick * gamePad = NULL;
+const int JOYSTICK_DEADZONE = 11000;
+Uint8 currentControl = NULL;
 
-//REMEMBER TO FREE TEXTURE
+//REMEMBER TO FREE DECLARATIONS!!!!
 
 
 
@@ -29,23 +32,29 @@ LButton button(SCREEN_WIDTH-85, 25, 60, 25);
 //    return loadedTexture;
 //}
 
+enum controlEnum
+{
+    MAK,
+    GAMEPAD
+};
+
 bool loadMedia()
 {
     bool success = true;
     
     if (!playerArt[0].loadFromFile(renderer, "Starfish.png"))
     {
-        printf("Failed to load Foo' texture image!\n");
+        printf("Failed to load Starfish.png texture image!\n");
         success = false;
     }
     if (!playerArt[1].loadFromFile(renderer, "RelicArt.png"))
     {
-        printf("Failed to load Foo' texture image!\n");
+        printf("Failed to load RelicArt.png texture image!\n");
         success = false;
     }
     if (!playerArt[2].loadFromFile(renderer, "StarfishRightRoll.png"))
     {
-        printf("Failed to load Foo' texture image!\n");
+        printf("Failed to load StarfishRightRoll.png texture image!\n");
         success = false;
     }
     gFont = TTF_OpenFont("/System/Library/Fonts/Noteworthy.ttc", 56); //Location and font size;
@@ -56,18 +65,14 @@ bool loadMedia()
             printf("Failed to load Font texture!");
             success = false;
         }
+        fontCol = {0, 0, 0, 255};
         if (!button.loadTextures(renderer, "ButtonBackground.png", "Button", gFont, fontCol))
         {
             printf("Failed to load button texture!");
             success = false;
         }
+        
     }
-    
-    
-    
-//    playerArt[0].setColor(200, 255, 255); //Takes red out of playerArt
-//    playerArt[1].setColor(200, 255, 255); //Takes red out of playerArt
-//    playerArt[2].setColor(200, 255, 255); //Takes red out of playerArt
     
     return success;
 }
@@ -75,6 +80,9 @@ bool loadMedia()
 
 void ERK::gameLoop()
 {
+    //set default control to keyboard and mouse
+    currentControl = controlEnum::MAK;
+    
    //Level objects
     float ground = 340.0f;
     SDL_FRect box = {350.0f, ground-100.0f, 100.0f, 100.0f};
@@ -120,6 +128,7 @@ void ERK::gameLoop()
             }
             else if (e.type == SDL_KEYDOWN)
             {
+                currentControl = controlEnum::MAK;
                 switch (e.key.keysym.sym) {
                     case SDLK_UP:
                         up = 1;
@@ -152,8 +161,86 @@ void ERK::gameLoop()
                         break;
                 }
             }
+            //JOYSTICK CONTROLS
+            else if (e.type == SDL_JOYAXISMOTION )
+            {
+                if (e.jaxis.which == 0) //
+                {
+                    if (e.jaxis.axis == 0)
+                    {
+                        if (e.jaxis.value > JOYSTICK_DEADZONE)
+                        {
+                            right = 1;
+                            left = 0;
+                            currentControl = controlEnum::GAMEPAD;
+                        }
+                        else if (e.jaxis.value < -JOYSTICK_DEADZONE)
+                        {
+                            left = 1;
+                            right = 0;
+                            currentControl = controlEnum::GAMEPAD;
+                        }
+                        else
+                        {
+                            if (currentControl == controlEnum::GAMEPAD)
+                            {
+                                left = 0;
+                                right = 0;
+                            }
+                        }
+                    }
+                }
+            }
+            else if (e.type == SDL_JOYBUTTONDOWN)
+            {
+                switch (e.jbutton.button)
+                {
+                    case 0:
+                        up=1;
+                        currentControl = controlEnum::GAMEPAD;
+                        break;
+                }
+            }
+            else if (e.type==SDL_JOYBUTTONUP)
+            {
+                switch (e.jbutton.button)
+                {
+                    case 0:
+                        up=0;
+                        break;
+                }
+            }
+            
             button.handleEvent(&e);
         }
+        
+        /*   FOR USING KEY STATES AS OPPOSED TO EVENTS... NO BUENO
+         
+        const Uint8* currentKeyState = SDL_GetKeyboardState(NULL);
+        if (currentKeyState[SDL_SCANCODE_RIGHT])
+        {
+            right = 1;
+            left = 0;
+        }
+        else if (currentKeyState[SDL_SCANCODE_LEFT])
+        {
+            right = 0;
+            left = 1;
+        }
+        else if(currentKeyState[SDL_SCANCODE_UP])
+        {
+            up = 1;
+        }
+        else
+        {
+            right = 0;
+            left = 0;
+            up = 0;
+        }
+         IGNORE ALL THIS TRASH
+        */
+         
+         
         //--------------- PLAYER PHYSICS -----------------
         speedX += ((right*runStr) - (left * runStr));
         speedX *= friction;
@@ -256,7 +343,7 @@ void ERK::gameLoop()
 bool ERK::init()
 {
     bool success = false;
-    if (SDL_Init(SDL_INIT_VIDEO)<0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK)<0)
     {
         printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
     }
@@ -286,16 +373,37 @@ bool ERK::init()
                    if( TTF_Init() == -1 )
                    {
                        printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
-                       success = false;
                    }
                     else
                     {
-                        
+                        //LOAD MEDIE
                         if (!loadMedia())
                         {
                             printf("Could not load texture image!\n");
                         }
                         else{
+                            //CHECK FOR JOYSTICKS AND SET TEXTURE FILTERING
+                            
+                            //Set texture filtering to linear
+                           if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
+                           {
+                               printf( "Warning: Linear texture filtering not enabled!" );
+                           }
+
+                           //Check for joysticks
+                           if( SDL_NumJoysticks() < 1 )
+                           {
+                               printf( "Warning: No joysticks connected!\n" );
+                           }
+                           else
+                           {
+                               //Load joystick
+                               gamePad = SDL_JoystickOpen( 0 );
+                               if( gamePad == NULL )
+                               {
+                                   printf( "Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError() );
+                               }
+                           }
                             success = true;
                         }
                     }
@@ -314,6 +422,7 @@ void ERK::quit()
     playerArt[0].free();
     playerArt[1].free();
     playerArt[2].free();
+    SDL_JoystickClose(gamePad);
     currentRender.free();
     fontTexture.free();
     TTF_CloseFont(gFont);
