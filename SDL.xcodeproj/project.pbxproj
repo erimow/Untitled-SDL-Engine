@@ -22,6 +22,7 @@
 		034DD3B32C0FBA2C00376700 /* LTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 034DD3B02C0FBA2C00376700 /* LTexture.cpp */; };
 		0386BCDD2B69740800E251A8 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0386BCDC2B69740800E251A8 /* SDL2_image.framework */; };
 		0386BCDE2B69740800E251A8 /* SDL2_image.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0386BCDC2B69740800E251A8 /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		03D8B72B2C1289A10040D51D /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03D8B7292C1289A10040D51D /* Timer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,6 +59,8 @@
 		034DD3AF2C0FBA2C00376700 /* LTexture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LTexture.hpp; sourceTree = "<group>"; };
 		034DD3B02C0FBA2C00376700 /* LTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LTexture.cpp; sourceTree = "<group>"; };
 		0386BCDC2B69740800E251A8 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_image.framework; sourceTree = "<group>"; };
+		03D8B7292C1289A10040D51D /* Timer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
+		03D8B72A2C1289A10040D51D /* Timer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Timer.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +128,8 @@
 				034DD3AE2C0FBA2C00376700 /* Game.hpp */,
 				034DD3B02C0FBA2C00376700 /* LTexture.cpp */,
 				034DD3AF2C0FBA2C00376700 /* LTexture.hpp */,
+				03D8B7292C1289A10040D51D /* Timer.cpp */,
+				03D8B72A2C1289A10040D51D /* Timer.hpp */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -203,6 +208,7 @@
 				034DD3B22C0FBA2C00376700 /* Game.cpp in Sources */,
 				034DD3A12C0FB7D200376700 /* main.cpp in Sources */,
 				034DD3B32C0FBA2C00376700 /* LTexture.cpp in Sources */,
+				03D8B72B2C1289A10040D51D /* Timer.cpp in Sources */,
 				034DD3B12C0FBA2C00376700 /* Button.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

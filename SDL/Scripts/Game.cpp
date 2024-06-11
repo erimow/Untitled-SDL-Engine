@@ -8,8 +8,12 @@
 #include "Game.hpp"
 #include "LTexture.hpp"
 #include "Button.hpp"
+#include "Timer.hpp"
+
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
+const int targetFps = 60;
+const int ticksPerFrame = 1000.0f/targetFps;
 SDL_Window * window = nullptr;
 SDL_Renderer * renderer = nullptr;
 LTexture playerArt[3];
@@ -17,13 +21,20 @@ LTexture currentRender;
 SDL_FPoint cameraPos;
 TTF_Font * gFont = NULL;
 LTexture fontTexture;
-LButton button(SCREEN_WIDTH-(SCREEN_WIDTH/10)-25, 25, SCREEN_WIDTH/10, SCREEN_HEIGHT/10);
+LButton button((SCREEN_WIDTH/10), 25, SCREEN_WIDTH/10, SCREEN_HEIGHT/10);
 bool isButtonPressed = false;
 Mix_Chunk* jumpEffect = NULL;
 Mix_Music* gameMusic = NULL;
 SDL_Joystick * gamePad = NULL;
 const int JOYSTICK_DEADZONE = 11000;
 Uint8 currentControl = NULL;
+Timer fpstimer;
+Timer capTimer;
+LTexture fpsTexture;
+int frameCount = 0;
+
+
+
 
 //REMEMBER TO FREE DECLARATIONS!!!!
 
@@ -95,6 +106,8 @@ bool loadMedia()
 
 void ERK::gameLoop()
 {
+    fpstimer.start();
+    
     //set default control to keyboard and mouse
     currentControl = controlEnum::MAK;
     
@@ -105,23 +118,26 @@ void ERK::gameLoop()
   
     //Font loc
     SDL_FRect textLoc = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT/5};
+    //fps display
+    SDL_FRect fpsLoc = {SCREEN_WIDTH-SCREEN_WIDTH/8, 5.0f, SCREEN_WIDTH/9, SCREEN_HEIGHT/13};
+    std::stringstream fpsText;
     
     //playerstats
      SDL_FRect player = {SCREEN_WIDTH/2-50.0f, SCREEN_HEIGHT/2-50.0f, 100.0f, 100.0f};
     SDL_Rect artBounds = {2, 5, 25, 22};
-    float jumpStr = 8.0f;
+    float jumpStr = 12.0f;
     float speedX=0;
     float speedY=0;
-    float gravity = 0.11f;
+    float gravity = 0.3f;
     float friction = .95f;
-    float runStr=0.3f;
+    float runStr=0.8f;
     
     //flags
     int left = 0;
     int right = 0;
     int up = 0;
     bool onGround = false;
-    float maxX = 4.0f;
+    float maxX = 8.0f;
 
     bool quit = false;
     SDL_Event e;
@@ -133,6 +149,7 @@ void ERK::gameLoop()
     
     while (!quit)
     {
+        capTimer.start();
         //Handle events on queue
         while( SDL_PollEvent( &e ) != 0 )
         {
@@ -300,7 +317,7 @@ void ERK::gameLoop()
         
         //------------- COLLISIONS ---------------
         
-        if (((player.y + player.h) >= box.y && (player.y + player.h) <= box.y+5) && (player.x + ((player.w/2)+10)>=box.x && player.x+((player.w/2)-10) <= box.x+box.w) && speedY >= 0)
+        if (((player.y + player.h) >= box.y && (player.y + player.h) <= box.y+10) && (player.x + ((player.w/2)+10)>=box.x && player.x+((player.w/2)-10) <= box.x+box.w) && speedY >= 0)
         {
             if(onGround==0)
                 Mix_PlayChannel(-1, jumpEffect, 0);
@@ -341,6 +358,17 @@ void ERK::gameLoop()
 //        SDL_RenderDrawLines(renderer, points, 2);
         
         
+       //FPS Rendering
+        float avgFps = frameCount / (fpstimer.getTicks()/1000.f);
+        fpsText.str("");
+        fpsText << "fps: " << (avgFps);
+        
+        if (!fpsTexture.loadFromRenderedText(renderer, gFont, fpsText.str(), {0,0,0,255}))
+        {
+            printf("Couldn't render fps text\n");
+        }
+        fpsTexture.render(renderer, NULL, &fpsLoc);
+        
         //Load Cube
         SDL_SetRenderDrawColor(renderer, 0xFF, 0, 0, 0xFF);
 //        SDL_RenderDrawRectF(renderer, &box);
@@ -373,6 +401,15 @@ void ERK::gameLoop()
         
         //Update screen
         SDL_RenderPresent( renderer );
+        frameCount++;
+        
+        //If frame finished early
+        int frameTicks = capTimer.getTicks();
+        if( frameTicks < ticksPerFrame)
+        {
+            //Wait remaining time
+            SDL_Delay(ticksPerFrame - frameTicks );
+        }
     }
 }
 
@@ -394,7 +431,7 @@ bool ERK::init()
             printf("Window was not loaded! SDL Error : %s\n", SDL_GetError());
         }
         else{
-            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
+            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
             if(renderer == NULL)
             {
                 printf("Renderer was not loaded! SDL Error : %s\n", SDL_GetError());
@@ -469,6 +506,7 @@ void ERK::quit()
     playerArt[0].free();
     playerArt[1].free();
     playerArt[2].free();
+    fpsTexture.free();
     Mix_FreeMusic(gameMusic);
     gameMusic = NULL;
     Mix_FreeChunk(jumpEffect);
