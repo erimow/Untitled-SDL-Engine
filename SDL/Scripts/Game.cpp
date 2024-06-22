@@ -57,22 +57,22 @@ bool loadMedia()
 {
     bool success = true;
     
-    if (!playerArt[0].loadFromFile(renderer, "Art/Starfish.png"))
+    if (!playerArt[0].loadFromFile(renderer, "SDL/Art/Starfish.png"))
     {
         printf("Failed to load Starfish.png texture image!\n");
         success = false;
     }
-    if (!playerArt[1].loadFromFile(renderer, "Art/RelicArt.png"))
+    if (!playerArt[1].loadFromFile(renderer, "SDL/Art/RelicArt.png"))
     {
         printf("Failed to load RelicArt.png texture image!\n");
         success = false;
     }
-    if (!playerArt[2].loadFromFile(renderer, "Art/StarfishRightRoll.png"))
+    if (!playerArt[2].loadFromFile(renderer, "SDL/Art/StarfishRightRoll.png"))
     {
         printf("Failed to load StarfishRightRoll.png texture image!\n");
         success = false;
     }
-    gFont = TTF_OpenFont("/System/Library/Fonts/Noteworthy.ttc", 56); //Location and font size;
+    gFont = TTF_OpenFont("SDL/Fonts/tuffy_regular.ttf", 56); //Location and font size;
     if(gFont!= NULL){
         SDL_Color fontCol= {0, 255, 122, 255};
         if(!fontTexture.loadFromRenderedText(renderer, gFont, "Starfish Adventures the Epilogue", fontCol))
@@ -81,20 +81,20 @@ bool loadMedia()
             success = false;
         }
         fontCol = {0, 0, 0, 255};
-        if (!button.loadTextures(renderer, "Art/ButtonBackground.png", "Music", gFont, fontCol))
+        if (!button.loadTextures(renderer, "SDL/Art/ButtonBackground.png", "Music", gFont, fontCol))
         {
             printf("Failed to load button texture!");
             success = false;
         }
         
-    }
-    jumpEffect = Mix_LoadWAV("Sounds/low.wav");
+    }else{printf("gFont is equal to NULL!");}
+    jumpEffect = Mix_LoadWAV("SDL/Sounds/low.wav");
     if(jumpEffect == NULL)
     {
         printf("Could not set jumpEffect sound! Error: %s\n", Mix_GetError());
     }
 //    gameMusic = Mix_LoadMUS("Sounds/game - music 1.wav");
-    gameMusic = Mix_LoadMUS("Sounds/The Penguin God.wav");
+    gameMusic = Mix_LoadMUS("SDL/Sounds/The Penguin God.wav");
     if(gameMusic == NULL)
     {
         printf("Could not set gameMusic! Error: %s\n", Mix_GetError());
@@ -365,7 +365,7 @@ void ERK::gameLoop()
         
         if (!fpsTexture.loadFromRenderedText(renderer, gFont, fpsText.str(), {0,0,0,255}))
         {
-            printf("Couldn't render fps text\n");
+            printf("Couldn't render fps text!\n");
         }
         fpsTexture.render(renderer, NULL, &fpsLoc);
         
